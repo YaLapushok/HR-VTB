@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR AI Анализатор • Премиум анализ компетенций</title>
+    <meta name="description" content="Профессиональный ИИ-анализ дипломов и сертификатов для HR-специалистов">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Gradient Background -->
+    <div class="gradient-bg"></div>
+
+    <div class="app">
+        <!-- Premium Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header__content">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="logo__icon">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="6" width="28" height="20" rx="4" fill="currentColor" opacity="0.1"/>
+                                    <path d="M6 10h20M6 14h16M6 18h12M6 22h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <circle cx="24" cy="20" r="4" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <div class="logo__text">
+                                <h1>HR AI Анализатор</h1>
+                                <span class="logo__subtitle">Premium Edition</span>
+                            </div>
+                        </div>
+                        <div class="header__badge">
+                            <span class="badge badge--ai">🤖 ИИ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero__content">
+                    <div class="hero__badge">
+                        <span class="badge badge--new">✨ Новинка 2025</span>
+                    </div>
+                    <h2 class="hero__title">Умный анализ компетенций кандидатов</h2>
+                    <p class="hero__subtitle">
+                        Загрузите диплом или сертификат и получите детальный ИИ-анализ навыков, 
+                        сильных сторон и рекомендаций для развития кандидата
+                    </p>
+                    <div class="hero__stats">
+                        <div class="stat">
+                            <div class="stat__number">10+</div>
+                            <div class="stat__label">Компетенций</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat__number">95%</div>
+                            <div class="stat__label">Точность</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat__number">< 3 сек</div>
+                            <div class="stat__label">Анализ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="container">
+                <!-- Upload Section -->
+                <section class="upload-section">
+                    <div class="section-header">
+                        <h3 class="section-title">Загрузка документов</h3>
+                        <p class="section-subtitle">Поддерживаются форматы: PDF, DOCX, JPG, PNG</p>
+                    </div>
+
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-area__content">
+                            <div class="upload-area__icon">
+                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M24 8L24 32M24 8L16 16M24 8L32 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 32V36C8 38.2091 9.79086 40 12 40H36C38.2091 40 40 38.2091 40 36V32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <h4 class="upload-area__title">Перетащите файлы сюда</h4>
+                            <p class="upload-area__subtitle">или нажмите для выбора</p>
+                            <input type="file" id="fileInput" multiple accept=".pdf,.docx,.jpg,.jpeg,.png" hidden>
+                            <button class="btn btn--outline" onclick="document.getElementById('fileInput').click()">
+                                Выбрать файлы
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- File Preview -->
+                    <div class="file-preview" id="filePreview" style="display: none;">
+                        <div class="file-preview__header">
+                            <h4>Загруженные файлы</h4>
+                        </div>
+                        <div class="file-list" id="fileList"></div>
+                        <button class="btn btn--primary btn--large" id="analyzeBtn" style="display: none;">
+                            <span class="btn__icon">🧠</span>
+                            Анализировать с помощью ИИ
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Loading Section -->
+                <section class="loading-section" id="loadingSection" style="display: none;">
+                    <div class="loading-card">
+                        <div class="loading-animation">
+                            <div class="pulse-ring"></div>
+                            <div class="pulse-ring pulse-ring--delay-1"></div>
+                            <div class="pulse-ring pulse-ring--delay-2"></div>
+                            <div class="loading-icon">🤖</div>
+                        </div>
+                        <h3 class="loading-title">Анализируем документы</h3>
+                        <p class="loading-text">ИИ обрабатывает данные и строит профиль компетенций...</p>
+                        <div class="loading-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <span class="progress-text" id="progressText">0%</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Results Section -->
+                <section class="results-section" id="resultsSection" style="display: none;">
+                    <div class="section-header">
+                        <h3 class="section-title">Результаты анализа</h3>
+                        <div class="result-badge">
+                            <span class="badge badge--success">✅ Анализ завершен</span>
+                        </div>
+                    </div>
+
+                    <!-- Candidate Profile -->
+                    <div class="candidate-profile" id="candidateProfile">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <span class="profile-initial">К</span>
+                            </div>
+                            <div class="profile-info">
+                                <h4 class="profile-name" id="profileName">Кандидат</h4>
+                                <p class="profile-type" id="profileType">Тип профиля</p>
+                            </div>
+                            <div class="profile-score">
+                                <div class="score-circle">
+                                    <span class="score-value" id="overallScore">85</span>
+                                    <span class="score-label">Общий балл</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Competency Chart -->
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h4 class="chart-title">Профиль компетенций</h4>
+                            <p class="chart-subtitle">Детальный анализ навыков и способностей</p>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="competencyChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Analysis Cards -->
+                    <div class="analysis-grid">
+                        <!-- Strengths -->
+                        <div class="analysis-card analysis-card--strengths">
+                            <div class="analysis-card__header">
+                                <div class="analysis-card__icon analysis-card__icon--strengths">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h4 class="analysis-card__title">Сильные стороны</h4>
+                            </div>
+                            <div class="analysis-card__content">
+                                <ul class="strength-list" id="strengthsList"></ul>
+                            </div>
+                        </div>
+
+                        <!-- Areas for Improvement -->
+                        <div class="analysis-card analysis-card--improvements">
+                            <div class="analysis-card__header">
+                                <div class="analysis-card__icon analysis-card__icon--improvements">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h4 class="analysis-card__title">Области для развития</h4>
+                            </div>
+                            <div class="analysis-card__content">
+                                <ul class="improvement-list" id="improvementsList"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn btn--outline" id="analyzeAnotherBtn">
+                            <span class="btn__icon">📄</span>
+                            Анализировать другой документ
+                        </button>
+                        <button class="btn btn--primary" id="exportBtn">
+                            <span class="btn__icon">💾</span>
+                            Экспортировать отчет
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__content">
+                    <div class="footer__left">
+                        <p class="footer__text">© 2025 HR AI Анализатор. Создано с использованием современных ИИ технологий.</p>
+                    </div>
+                    <div class="footer__right">
+                        <div class="footer__tech">
+                            <span class="tech-badge">Gigachat API</span>
+                            <span class="tech-badge">Chart.js</span>
+                            <span class="tech-badge">Docker</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

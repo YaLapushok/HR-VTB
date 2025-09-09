@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  hr-ai-analyzer:
+    build: .
+    container_name: hr-ai-analyzer-premium
+    ports:
+      - "3000:8080"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./logs:/var/log/nginx
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hr-analyzer.rule=Host(`hr-analyzer.local`)"
+      - "traefik.http.services.hr-analyzer.loadbalancer.server.port=8080"
+    networks:
+      - hr-analyzer-network
+
+networks:
+  hr-analyzer-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  nginx-logs:
+    driver: local
